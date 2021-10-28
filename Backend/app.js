@@ -27,18 +27,18 @@ app.post("/user/create", async (req, res) => {
     }
 })
 
-app.get("/user/all/:id", async (req, res) => {
+app.get("/user/all", async (req, res) => {
 
-    if (req.params.id) {
-        try {
-            let result = await Sdata.find({ _id: req.params.id.toString() });
-            return res.json(result)
-        } catch (error) {
-            return res.status(400).json({
-                err: error.message
-            })
-        }
-    } else {
+    // if (req.params.id) {
+    //     try {
+    //         let result = await Sdata.find({ _id: req.params.id.toString() });
+    //         return res.json(result)
+    //     } catch (error) {
+    //         return res.status(400).json({
+    //             err: error.message
+    //         })
+    //     }
+    // } else {
         try {
             let result = await Sdata.find();
             return res.json(result)
@@ -47,8 +47,36 @@ app.get("/user/all/:id", async (req, res) => {
                 err: error.message
             })
         }
-    }
+    // }
 
+})
+
+app.post("/user/:id",async(req,res)=>{
+    let id = req.params.id;
+    console.log(id,req.body);
+    try {
+        console.log(req.body._id)
+        let result = await Sdata.findByIdAndUpdate(id,req.body);
+        console.log(result);
+        // return res.json(result)
+    } catch (error) {
+        return res.status(400).json({
+            err: error.message
+        })
+    }
+})
+
+
+app.get("/user/:id",async(req,res)=>{
+    let id = req.params.id;
+    try {
+        let result = await Sdata.findById(id);
+        return res.json(result)
+    } catch (error) {
+        return res.status(400).json({
+            err: error.message
+        })
+    }
 })
 
 
